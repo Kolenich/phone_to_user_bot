@@ -1,9 +1,10 @@
 import re
+import os
 
 from telegram import Update
 from telegram.ext import ApplicationBuilder, filters, MessageHandler
 
-TOKEN = '8315940582:AAG61eOqCLEDD4zz8SmL9fJ-Qp-rHCVQtto'
+TOKEN = os.getenv('TOKEN')
 
 
 def normalize_phone_number(text: str) -> str | None:
