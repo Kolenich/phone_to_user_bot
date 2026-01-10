@@ -1,13 +1,12 @@
 import re
 import os
-import socket
 
 from telegram import Update
 from telegram.ext import ApplicationBuilder, filters, MessageHandler
 
 TOKEN = os.getenv('TOKEN')
-HOST = os.getenv('HOST')
 PORT = int(os.getenv('PORT'))
+RENDER_EXTERNAL_URL = os.getenv('RENDER_EXTERNAL_URL')
 
 
 def normalize_phone_number(text: str) -> str | None:
@@ -44,9 +43,9 @@ if __name__ == '__main__':
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    app.run_polling()
-
-    sckt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sckt.bind((HOST, PORT))
-
-    sckt.listen()
+    app.run_webhook(
+        listen='0.0.0.0',
+        port=PORT,
+        url_path=TOKEN,
+        webhook_url=f'{RENDER_EXTERNAL_URL}/{TOKEN}'
+    )
