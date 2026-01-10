@@ -1,7 +1,6 @@
 import re
 import os
 import socket
-from sqlite3 import connect
 
 from telegram import Update
 from telegram.ext import ApplicationBuilder, filters, MessageHandler
@@ -35,10 +34,10 @@ async def handle_message(update: Update, *args, **kwargs):
         await update.message.reply_text(
             'Пожалуйста, введите российский номер телефона'
         )
+    else:
+        link = f'https://t.me/{phone_number}'
 
-    link = f'https://t.me/{phone_number}'
-
-    await update.message.reply_text(link)
+        await update.message.reply_text(link)
 
 
 if __name__ == '__main__':
