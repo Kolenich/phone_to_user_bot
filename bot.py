@@ -1,10 +1,13 @@
 import re
 import os
+import socket
 
 from telegram import Update
 from telegram.ext import ApplicationBuilder, filters, MessageHandler
 
 TOKEN = os.getenv('TOKEN')
+HOST = os.getenv('HOST')
+PORT = int(os.getenv('PORT'))
 
 
 def normalize_phone_number(text: str) -> str | None:
@@ -42,3 +45,9 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     app.run_polling()
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
+        socket.bind((HOST, PORT))
+
+        socket.listen()
+        print(f'Listening on {HOST}:{PORT}...')
