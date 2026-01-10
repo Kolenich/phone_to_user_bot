@@ -1,6 +1,7 @@
 import re
 import os
 import socket
+from sqlite3 import connect
 
 from telegram import Update
 from telegram.ext import ApplicationBuilder, filters, MessageHandler
@@ -46,8 +47,7 @@ if __name__ == '__main__':
 
     app.run_polling()
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
-        socket.bind((HOST, PORT))
+    sckt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sckt.bind((HOST, PORT))
 
-        socket.listen()
-        print(f'Listening on {HOST}:{PORT}...')
+    sckt.listen()
