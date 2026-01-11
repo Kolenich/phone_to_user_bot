@@ -1,0 +1,5 @@
+services:
+  python:
+    image: phone_to_user_bot
+    build: .
+    env_file: ".env"
